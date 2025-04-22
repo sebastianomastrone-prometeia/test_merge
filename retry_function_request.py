@@ -85,6 +85,7 @@ if __name__ == "__main__":
         print(result)
         logging.info(f"This branch is under production")
         logging.info("first mod")
+        logging.info("second mod")
 
     except Exception as e:
         logging.error(f"Failed to retrieve data: {e}")
