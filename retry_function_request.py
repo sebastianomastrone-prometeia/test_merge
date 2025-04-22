@@ -46,6 +46,22 @@ def confgure_session():
     session.mount('https://', HTTPAdapter(max_retries=retries))
     return session
 
+def log_request_details(method: str, url: str, **kwargs):
+    """
+    Logs the details of an HTTP request.
+
+    :param method: HTTP method (e.g., 'GET', 'POST').
+    :param url: The URL to which the request is being sent.
+    :param kwargs: Additional arguments such as headers or data.
+    """
+    logging.debug(f"Preparing HTTP request:")
+    logging.debug(f"Method: {method}")
+    logging.debug(f"URL: {url}")
+    if 'headers' in kwargs:
+        logging.debug(f"Headers: {kwargs['headers']}")
+    if 'data' in kwargs:
+        logging.debug(f"Body: {kwargs['data']}")
+
 # Retry with the tenacity library 
 @retry(
     stop=stop_after_attempt(4), 
@@ -57,6 +73,8 @@ def json_from_request(*args, **kwargs):
     Makes http request using the session and retries on specific errors.
     """
     session = confgure_session()
+    log_request_details(args[0], args[1], **kwargs)  # Log the request details
+
     response = session.request(*args, **kwargs)
     response.raise_for_status() 
     try:
