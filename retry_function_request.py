@@ -83,7 +83,7 @@ if __name__ == "__main__":
         method = "GET"
         result = json_from_request(method,url2)
         print(result)
-        logging.info(f"This branch is under development")
+        logging.info(f"This branch is under prod")
     except Exception as e:
         logging.error(f"Failed to retrieve data: {e}")
         
